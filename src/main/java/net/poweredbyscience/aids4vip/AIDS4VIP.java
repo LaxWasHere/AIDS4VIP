@@ -6,6 +6,7 @@ import net.minecraft.server.v1_11_R1.PacketPlayOutTitle;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -54,14 +55,17 @@ public class AIDS4VIP extends JavaPlugin {
             @Override
             public void run() {
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    if (!p.hasPermission("server.vip")) openAidz(p);
+                    if (!p.hasPermission("server.vip")) {
+                        openAidz(p);
+                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_COW_AMBIENT,1,1);
+                    }
                 }
             }
         }.runTaskTimerAsynchronously(this, 5, 600);
     }
 
     public void openAidz(Player p) {
-        Inventory inv = Bukkit.createInventory(new IInventoryHolder(this), 9, ChatColor.RED + "AIDS FOR YOU");
+        Inventory inv = Bukkit.createInventory(new IInventoryHolder(this), 9, ChatColor.RED + "ADS FOR YOU");
         inv.setItem(4, createItem(Material.BARRIER, 1, 0, "&cBUY VIP", "&cStore: " + store));
         p.openInventory(inv);
     }
